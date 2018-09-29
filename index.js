@@ -6,8 +6,8 @@ function calculateColor(mouse) {
     let d = distance(mouse, point);
     let percentage = 100 - (d * 100 / maxDistance);
     let color = 255 * percentage / 100;
-    red.style.background = `rgba(255, 177, 179, ${percentage / 100})`;
-    blue.style.background = `rgba(116, 185, 255, ${1 - (percentage / 100)})`;
+    red.style.background = `rgba(255, 181, 181, ${percentage / 100})`;
+    blue.style.background = `rgba(194, 244, 255, ${1 - (percentage / 100)})`;
     console.log(percentage)
     if(percentage >= dificulty) {
         alert((new Date() - init_time) / 1000 + 's');
