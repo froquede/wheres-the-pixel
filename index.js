@@ -8,9 +8,10 @@ function calculateColor(mouse) {
     let color = 255 * percentage / 100;
     red.style.background = `rgba(255, 181, 181, ${percentage / 100})`;
     blue.style.background = `rgba(194, 244, 255, ${1 - (percentage / 100)})`;
-    console.log(percentage)
+    
     if(percentage >= dificulty) {
         alert((new Date() - init_time) / 1000 + 's');
+        createWinDiv();
         init();
     }
 }
