@@ -1,5 +1,6 @@
 <style>
-    #red, #blue {
+    #red,
+    #blue {
         width: 100vw;
         height: 100vh;
         position: fixed;
@@ -7,9 +8,30 @@
         bottom: 0;
         left: 0;
         right: 0;
-        cursor: url('FF4D00-0.png'), auto;	
+        cursor: url('FF4D00-0.png'), auto;
+    }
+
+    .normal {
+        cursor: default !important;
+    }
+
+    .circle {
+        width: 140px;
+        height: 140px;
+        position: absolute;
+        border-radius: 50%;
+        background: #ffa2a5;
+        cursor: pointer;
+        opacity: .6;
+        transition: 1s ease-out all;
+        transform: scale(0);
+    }
+
+    .active {
+        transform: scale(1);
     }
 </style>
+
 <body>
     <div id="red"></div>
     <div id="blue"></div>
