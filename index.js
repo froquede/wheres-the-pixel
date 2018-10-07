@@ -30,7 +30,7 @@ function createWinDiv() {
 
 function listeners() {
     $('body').mousemove((e) => {
-        if(running) {
+        if (running) {
             calculateColor({ x: e.pageX, y: e.pageY });
         }
     });
@@ -54,6 +54,7 @@ function distance(p1, p2) {
 let maxDistance = distance({ x: 0, y: 0 }, { x: window.innerWidth, y: window.innerHeight });
 let init_time;
 function init() {
+    handleDOM();
     running = true;
     init_time = new Date();
     dificulty += (100 - dificulty) / 4;
@@ -61,11 +62,20 @@ function init() {
     listeners();
 }
 
+function handleDOM(){
+    $('.circle').remove();
+    $('#red').removeClass('normal');
+    $('#blue').removeClass('normal');
+    $('.js-end').removeClass('__active');
+}
+
 function win() {
     let time = new Date(new Date() - init_time);
     time = time.getSeconds() + 's';
-    $('.js-time').text(time);
-
+    $('.js-time').text(time + ' - ' + dificulty.toFixed(2) + '%');
+    $('.js-end').addClass('__active');
 }
+
+$('.js-restart').click(init);
 
 init();

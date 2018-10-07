@@ -1,4 +1,18 @@
 <style>
+    @font-face {
+        font-family: 'Peepo';
+        src: url('./Peepo.woff');
+        font-weight: normal;
+    }
+
+    body, html{
+        overflow: hidden;
+        width: 100vw;
+        height: 100vh;
+        padding: 0;
+        margin: 0;
+    }
+
     #red,
     #blue {
         width: 100vw;
@@ -30,11 +44,70 @@
     .active {
         transform: scale(1);
     }
+
+    .end {
+        position: fixed;
+        display: flex;
+        width: 100vw;
+        height: 100vh;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        visibility: hidden;
+        transition: .2s ease all;
+        z-index: 0;
+        opacity: 0;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+
+    .__active {
+        visibility: visible;
+        transition: .2s ease all;
+        opacity: 1;
+        z-index: 10;
+    }
+
+    .time,
+    h2,
+    button {
+        font-family: 'Peepo';
+        color: white;
+    }
+
+    button {
+        border: 3px solid white;
+        background: transparent;
+        padding: 10px 20px 13px 20px;
+        box-sizing: border-box;
+        font-size: 35px;
+        letter-spacing: 5px;
+        cursor: pointer;
+    }
+
+    .time {
+        font-size: 56px;
+        margin: 0;
+    }
+
+    h2 {
+        margin-bottom: 24px;
+        font-size: 86px;
+        margin: 0;
+        margin-bottom: 30px;
+    }
 </style>
 
 <body>
     <div id="red"></div>
     <div id="blue"></div>
+    <div class="end js-end">
+        <p class="time js-time"></p>
+        <h2>YOU WIN</h2>
+        <button class="js-restart">PLAY AGAIN</button>
+    </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="index.js"></script>
