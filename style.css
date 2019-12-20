@@ -1,0 +1,205 @@
+@font-face {
+  font-family: "Peepo";
+  src: url("./Peepo.woff");
+  font-weight: normal;
+}
+
+body,
+html {
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+}
+
+#red,
+#blue {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  cursor: url("FF4D00-0.png"), auto;
+}
+
+.paused #red,
+.paused #blue {
+  cursor: default;
+}
+
+.normal {
+  cursor: default !important;
+}
+
+.circle {
+  width: 120px;
+  height: 120px;
+  position: absolute;
+  border-radius: 50%;
+  background: #ffa2a5;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: 0.35s ease-in-out all;
+  transform: scale(0);
+}
+
+.active {
+  transform: scale(1);
+}
+
+.end {
+  position: fixed;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  visibility: hidden;
+  transition: 0.2s ease all;
+  z-index: 0;
+  opacity: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.__active {
+  visibility: visible;
+  transition: 0.2s ease all;
+  opacity: 1;
+  z-index: 10;
+}
+
+p,
+h2,
+button {
+  font-family: "Peepo";
+  color: white;
+}
+
+button {
+  border: 3px solid white;
+  background: transparent;
+  padding: 10px 30px 16px 34px;
+  box-sizing: border-box;
+  font-size: 35px;
+  letter-spacing: 6px;
+  cursor: pointer;
+}
+
+.time {
+  font-size: 56px;
+  margin: 0;
+}
+
+h2 {
+  font-size: 86px;
+  margin: 0;
+  margin-bottom: 30px;
+  margin-top: 8px;
+}
+
+.difficulty {
+  font-size: 42px;
+  margin: 0;
+}
+
+.time {
+  background: #ff515a;
+  padding: 0 40px;
+  border-radius: 100px;
+  line-height: 65px;
+  height: 80px;
+  margin: 0;
+  margin-top: 20px;
+  padding-left: 48px;
+  padding-top: 6px;
+  letter-spacing: 6px;
+}
+
+.controls {
+  z-index: 1000;
+  position: fixed;
+  bottom: 30px;
+  right: 40px;
+  transform: scale(0);
+  transition: 0.35s ease-in-out all;
+}
+
+.controls.__active {
+  transform: scale(1);
+  transition: 0.35s ease-in-out all;
+}
+
+.timer {
+  background: #ff515a;
+  display: flex;
+  height: 44px;
+  border-radius: 44px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+  padding-bottom: 2px;
+  position: absolute;
+  z-index: 10;
+  right: -20px;
+  top: -20px;
+  transition: 0.2s ease all;
+  min-width: 42px;
+}
+
+.timer p {
+  margin: 0;
+  font-size: 20px;
+  letter-spacing: 2px;
+  transition: 0.2s ease all;
+}
+
+.pause {
+  height: 100px;
+  background: white;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pause-icon {
+  transform: scale(2);
+  width: 11px;
+  height: 16px;
+  transition: 0.35s ease-in-out all;
+}
+
+.paused .pause-icon {
+  transform: scale(0);
+  width: 0;
+  height: 0;
+  transition: 0.35s ease-in-out all;
+}
+
+.play-icon {
+  transform: scale(0);
+  width: 0;
+  height: 0;
+  transition: 0.35s ease-in-out all;
+}
+
+.paused .play-icon {
+  transform: scale(2);
+  width: 11px;
+  height: 16px;
+  transition: 0.35s ease-in-out all;
+}
+
+.relative {
+  position: relative;
+  width: 100px;
+}

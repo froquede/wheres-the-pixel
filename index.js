@@ -1,31 +1,30 @@
-var running = false;
+const red = document.getElementById('red');
+const blue = document.getElementById('blue');
 
-let red = document.getElementById('red');
-let blue = document.getElementById('blue');
-let dificulty = 95;
+let last_point = { x: 0, y: 0 };
 function calculateColor(mouse) {
     let d = distance(mouse, point);
     let percentage = 100 - (d * 100 / maxDistance);
-    let color = 255 * percentage / 100;
     red.style.background = `rgba(255, 181, 181, ${percentage / 100})`;
     blue.style.background = `rgba(194, 244, 255, ${1 - (percentage / 100)})`;
+    last_point = mouse;
 
-    if (percentage >= dificulty) {
+    if (percentage >= difficulty) {
         createWinDiv();
         running = false;
     }
 }
 
-let radius = 70;
+let radius = 60;
 function createWinDiv() {
     let winning_div = $(`<div class="circle" onclick="win();" style="left: ${point.x - radius}px; top: ${point.y - radius}px"></div>`);
     $('.circle').remove();
     $('body').append(winning_div);
     setTimeout(() => {
-        winning_div.addClass('active');
         $('#red').addClass('normal');
         $('#blue').addClass('normal');
-    }, 0);
+        winning_div.addClass('active');
+    }, 1e2);
 }
 
 function listeners() {
@@ -39,12 +38,17 @@ function listeners() {
 let point;
 function newGame() {
     point = randomPoint();
+    $('.js-real-time').text('0s');
+    $('.js-controls').addClass('__active');
 }
 
 function randomPoint() {
-    let x = parseInt(Math.random() * window.innerWidth);
-    let y = parseInt(Math.random() * window.innerHeight);
-    return { x: x, y: y };
+    let w = Math.random() * (window.innerWidth - radius);
+    let h = Math.random() * (window.innerHeight - radius);
+    w < radius ? w = radius : w = w;
+    h < radius ? h = radius : h = h;
+
+    return { x: parseInt(w), y: parseInt(h) };
 }
 
 function distance(p1, p2) {
@@ -52,17 +56,56 @@ function distance(p1, p2) {
 }
 
 let maxDistance = distance({ x: 0, y: 0 }, { x: window.innerWidth, y: window.innerHeight });
-let init_time;
+let init_time, difficulty = 95, running = false;
 function init() {
-    handleDOM();
+    if (!binded) binds();
     running = true;
     init_time = new Date();
-    dificulty += (100 - dificulty) / 4;
-    newGame();
+    lastdiff  = 0;
+    difficulty += (100 - difficulty) / 4;
+    handleDOM();
     listeners();
+    newGame();
+    timer();
+    // createWinDiv();
 }
 
-function handleDOM(){
+let time;
+function timer() {
+    let t = setInterval(() => {
+        if (running) {
+            time = ((new Date() - init_time) / 1000);
+            $('.js-real-time').text((time + lastdiff).toFixed(2).split('.')[0] + 's');
+        }
+    }, 1e3);
+}
+
+let binded;
+function binds() {
+    binded = true;
+    $('.js-restart').click(init);
+    $('.js-pause').click(toggleGame);
+    $(window).resize(() => {
+        maxDistance = distance({ x: 0, y: 0 }, { x: window.innerWidth, y: window.innerHeight });
+        newGame();
+        // createWinDiv();
+    })
+}
+
+let lastdiff = 0;
+function toggleGame() {
+    running = !running;
+    if (!running) {
+        lastdiff += time;
+        $('body').addClass('paused');
+    }
+    else {
+        init_time = new Date();
+        $('body').removeClass('paused');
+    }
+}
+
+function handleDOM() {
     $('.circle').remove();
     $('#red').removeClass('normal');
     $('#blue').removeClass('normal');
@@ -70,12 +113,15 @@ function handleDOM(){
 }
 
 function win() {
-    let time = new Date(new Date() - init_time);
-    time = time.getSeconds() + 's';
-    $('.js-time').text(time + ' - ' + dificulty.toFixed(2) + '%');
+    // let time = (new Date() - init_time) / 1000;
+    $('.js-difficulty').text(`${difficulty.toFixed(2)}% PRECISION`)
+    $('.js-time').text(time.toFixed(2) + 's');
     $('.js-end').addClass('__active');
+    $('.js-controls').removeClass('__active');
 }
 
-$('.js-restart').click(init);
+function pause() {
+
+}
 
 init();
