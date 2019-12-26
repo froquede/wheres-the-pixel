@@ -20,6 +20,7 @@ function createWinDiv() {
     let winning_div = $(`<div class="circle" onclick="win();" style="left: ${point.x - radius}px; top: ${point.y - radius}px"></div>`);
     $('.circle').remove();
     $('body').append(winning_div);
+    time = (((new Date() - init_time) / 1000) + lastdiff).toFixed(3)
     setTimeout(() => {
         $('#red').addClass('normal');
         $('#blue').addClass('normal');
@@ -27,12 +28,16 @@ function createWinDiv() {
     }, 1e2);
 }
 
+function onMove(e) {
+    if (running) {
+        if (e.touches && e.touches[0]) e = e.touches[0];
+        calculateColor({ x: e.pageX, y: e.pageY });
+    }
+}
+
 function listeners() {
-    $('body').mousemove((e) => {
-        if (running) {
-            calculateColor({ x: e.pageX, y: e.pageY });
-        }
-    });
+    $('body').mousemove(onMove);
+    $('body').on('touchmove', onMove);
 }
 
 let point;
@@ -61,13 +66,12 @@ function init() {
     if (!binded) binds();
     running = true;
     init_time = new Date();
-    lastdiff  = 0;
+    lastdiff = 0;
     difficulty += (100 - difficulty) / 4;
     handleDOM();
     listeners();
     newGame();
     timer();
-    // createWinDiv();
 }
 
 let time;
@@ -88,7 +92,6 @@ function binds() {
     $(window).resize(() => {
         maxDistance = distance({ x: 0, y: 0 }, { x: window.innerWidth, y: window.innerHeight });
         newGame();
-        // createWinDiv();
     })
 }
 
@@ -112,10 +115,9 @@ function handleDOM() {
     $('.js-end').removeClass('__active');
 }
 
-function win() {
-    // let time = (new Date() - init_time) / 1000;
+function win() {;
     $('.js-difficulty').text(`${difficulty.toFixed(2)}% PRECISION`)
-    $('.js-time').text(time.toFixed(2) + 's');
+    $('.js-time').text(time + 's');
     $('.js-end').addClass('__active');
     $('.js-controls').removeClass('__active');
 }
